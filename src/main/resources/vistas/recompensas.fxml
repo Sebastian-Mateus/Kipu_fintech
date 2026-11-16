@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uniquindio.fintech.controlador.RecompensasControlador"
+            fitToWidth="true">
+    <VBox styleClass="contenido">
+        <HBox spacing="16">
+            <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="Puntos disponibles" styleClass="texto-secundario"/>
+                <Label fx:id="etiquetaPuntos" styleClass="tarjeta-valor"/>
+            </VBox>
+            <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="Puntos acumulados" styleClass="texto-secundario"/>
+                <Label fx:id="etiquetaAcumulados" styleClass="tarjeta-valor"/>
+            </VBox>
+            <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="Nivel" styleClass="texto-secundario"/>
+                <Label fx:id="etiquetaNivel"/>
+            </VBox>
+        </HBox>
+        <Label text="Catálogo de beneficios" styleClass="subtitulo"/>
+        <FlowPane fx:id="panelCatalogo" hgap="16" vgap="16"/>
+        <Label fx:id="etiquetaMensaje" wrapText="true"/>
+        <Label text="Mis canjes" styleClass="subtitulo"/>
+        <TableView fx:id="tablaCanjes" prefHeight="240"/>
+    </VBox>
+</ScrollPane>
