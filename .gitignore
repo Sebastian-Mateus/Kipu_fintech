@@ -17,8 +17,9 @@ Thumbs.db
 # Logs
 *.log
 
-# Documento de diseño interno
+# Documento de diseño interno e instrucciones del proyecto
 docs/DISENO.md
+proyecto_final_estructuras_de_datos_2026_2.md
 
 # Configuración local
 CLAUDE.md
