@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.fintech.controlador.OperacionesControlador"
+      styleClass="contenido">
+    <TabPane fx:id="pestanas" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Recargar">
+            <VBox styleClass="tarjeta" maxWidth="560" spacing="12">
+                <Label text="Mete plata a una de tus billeteras" styleClass="texto-secundario"/>
+                <VBox spacing="4">
+                    <Label text="Billetera destino"/>
+                    <ComboBox fx:id="recargaDestino" maxWidth="Infinity"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Monto"/>
+                    <TextField fx:id="recargaMonto" promptText="Ej: 150000"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Descripción (opcional)"/>
+                    <TextField fx:id="recargaDescripcion"/>
+                </VBox>
+                <Label fx:id="recargaVista" styleClass="texto-secundario"/>
+                <Button text="Recargar" styleClass="boton-principal" onAction="#recargar"/>
+            </VBox>
+        </Tab>
+        <Tab text="Retirar">
+            <VBox styleClass="tarjeta" maxWidth="560" spacing="12">
+                <Label text="Saca plata de una de tus billeteras (paga comisión según tu nivel)"
+                       styleClass="texto-secundario"/>
+                <VBox spacing="4">
+                    <Label text="Billetera de origen"/>
+                    <ComboBox fx:id="retiroOrigen" maxWidth="Infinity"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Monto"/>
+                    <TextField fx:id="retiroMonto" promptText="Ej: 50000"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Descripción (opcional)"/>
+                    <TextField fx:id="retiroDescripcion"/>
+                </VBox>
+                <Label fx:id="retiroVista" styleClass="texto-secundario"/>
+                <Button text="Retirar" styleClass="boton-principal" onAction="#retirar"/>
+            </VBox>
+        </Tab>
+        <Tab text="Transferir">
+            <VBox styleClass="tarjeta" maxWidth="560" spacing="12">
+                <fx:define>
+                    <ToggleGroup fx:id="grupoTipo"/>
+                </fx:define>
+                <HBox spacing="16">
+                    <RadioButton fx:id="opcionInterna" text="Entre mis billeteras" toggleGroup="$grupoTipo"
+                                 selected="true"/>
+                    <RadioButton fx:id="opcionExterna" text="A otra persona" toggleGroup="$grupoTipo"/>
+                </HBox>
+                <VBox spacing="4">
+                    <Label text="Billetera de origen"/>
+                    <ComboBox fx:id="transferenciaOrigen" maxWidth="Infinity"/>
+                </VBox>
+                <VBox fx:id="cajaDestinoPropia" spacing="4">
+                    <Label text="Billetera destino"/>
+                    <ComboBox fx:id="transferenciaDestinoPropia" maxWidth="Infinity"/>
+                </VBox>
+                <VBox fx:id="cajaDestinoCodigo" spacing="4">
+                    <Label text="Código de la billetera destino"/>
+                    <TextField fx:id="transferenciaDestinoCodigo" promptText="Ej: BIL-0004"/>
+                    <Label fx:id="transferenciaDueno" styleClass="texto-secundario"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Monto"/>
+                    <TextField fx:id="transferenciaMonto" promptText="Ej: 80000"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Descripción (opcional)"/>
+                    <TextField fx:id="transferenciaDescripcion"/>
+                </VBox>
+                <Label fx:id="transferenciaVista" styleClass="texto-secundario"/>
+                <Button text="Transferir" styleClass="boton-principal" onAction="#transferir"/>
+            </VBox>
+        </Tab>
+    </TabPane>
+    <Label fx:id="etiquetaMensaje" wrapText="true"/>
+</VBox>
