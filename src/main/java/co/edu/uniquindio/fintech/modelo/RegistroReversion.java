@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public class RegistroReversion {
 
-    // Una transaccion se puede revertir hasta 24 horas despues
+    // Si no dicen otra cosa, una transaccion se puede revertir hasta 24 horas despues
     private static final int HORAS_PARA_REVERTIR = 24;
 
     private Transaccion transaccion;
@@ -16,9 +16,13 @@ public class RegistroReversion {
     private LocalDateTime fechaLimite;
 
     public RegistroReversion(Transaccion transaccion, int puntosOtorgados) {
+        this(transaccion, puntosOtorgados, HORAS_PARA_REVERTIR);
+    }
+
+    public RegistroReversion(Transaccion transaccion, int puntosOtorgados, int horasParaRevertir) {
         this.transaccion = transaccion;
         this.puntosOtorgados = puntosOtorgados;
-        this.fechaLimite = transaccion.getFecha().plusHours(HORAS_PARA_REVERTIR);
+        this.fechaLimite = transaccion.getFecha().plusHours(horasParaRevertir);
     }
 
     /** Dice si todavia esta dentro de las 24 horas para revertir. */
