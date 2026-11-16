@@ -16,3 +16,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Documento de diseño interno
+docs/DISENO.md
