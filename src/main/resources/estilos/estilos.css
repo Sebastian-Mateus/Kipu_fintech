@@ -87,7 +87,7 @@
     -fx-pref-width: 224;
 }
 
-.boton-menu {
+.button.boton-menu {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-alignment: center-left;
@@ -98,11 +98,11 @@
     -fx-cursor: hand;
 }
 
-.boton-menu:hover {
+.button.boton-menu:hover {
     -fx-background-color: -fondo;
 }
 
-.boton-menu.activo {
+.button.boton-menu.activo {
     -fx-background-color: -acento-suave;
     -fx-text-fill: -acento-presionado;
     -fx-font-weight: bold;
@@ -371,14 +371,16 @@
 /* ---------- Barra de progreso del nivel ---------- */
 
 .progress-bar > .track {
-    -fx-background-color: -fondo;
+    -fx-background-color: -borde;
     -fx-background-radius: 8;
+    -fx-background-insets: 0;
 }
 
 .progress-bar > .bar {
     -fx-background-color: -acento;
     -fx-background-radius: 8;
     -fx-background-insets: 0;
+    -fx-padding: 6;
 }
 
 /* ---------- Pestañas ---------- */

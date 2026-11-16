@@ -77,7 +77,7 @@ public class OperacionesControlador {
         usuario = Sesion.getUsuarioActual();
         cargarBilleteras();
 
-        // Vistas previas que se recalculan con cada tecla
+        // Vistas previas que se recalcuan con cada tecla
         recargaMonto.textProperty().addListener((observable, anterior, nuevo) ->
                 recargaVista.setText(vistaPrevia(TipoTransaccion.RECARGA, nuevo)));
         retiroMonto.textProperty().addListener((observable, anterior, nuevo) ->
@@ -95,6 +95,13 @@ public class OperacionesControlador {
         retiroOrigen.setItems(activas);
         transferenciaOrigen.setItems(activas);
         transferenciaDestinoPropia.setItems(activas);
+        // Se deja escogida la primera para no tener que abrir el combo siempre
+        if (!activas.isEmpty()) {
+            recargaDestino.getSelectionModel().selectFirst();
+            retiroOrigen.getSelectionModel().selectFirst();
+            transferenciaOrigen.getSelectionModel().selectFirst();
+            transferenciaDestinoPropia.getSelectionModel().selectFirst();
+        }
     }
 
     @FXML
