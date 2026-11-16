@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uniquindio.fintech.controlador.PrincipalClienteControlador">
+    <left>
+        <VBox styleClass="menu-lateral">
+            <Label text="Kipu" styleClass="logo"/>
+            <Button fx:id="botonInicio" text="Inicio" styleClass="boton-menu" onAction="#irAInicio"/>
+            <Button fx:id="botonBilleteras" text="Mis billeteras" styleClass="boton-menu" onAction="#irABilleteras"/>
+            <Button fx:id="botonOperaciones" text="Operaciones" styleClass="boton-menu" onAction="#irAOperaciones"/>
+            <Button fx:id="botonHistorial" text="Historial" styleClass="boton-menu" onAction="#irAHistorial"/>
+            <Button fx:id="botonProgramadas" text="Programadas" styleClass="boton-menu" onAction="#irAProgramadas"/>
+            <Button fx:id="botonRecompensas" text="Recompensas" styleClass="boton-menu" onAction="#irARecompensas"/>
+            <Button fx:id="botonNotificaciones" text="Notificaciones" styleClass="boton-menu"
+                    onAction="#irANotificaciones"/>
+            <Button fx:id="botonPerfil" text="Perfil" styleClass="boton-menu" onAction="#irAPerfil"/>
+            <Pane VBox.vgrow="ALWAYS"/>
+            <Separator/>
+            <Button text="Cerrar sesión" styleClass="boton-menu" onAction="#cerrarSesion"/>
+        </VBox>
+    </left>
+    <top>
+        <HBox styleClass="barra-superior">
+            <Label fx:id="etiquetaSeccion" styleClass="titulo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="etiquetaFecha" styleClass="texto-secundario"/>
+            <Label fx:id="etiquetaNivel"/>
+            <Button fx:id="botonCampana" styleClass="boton-notificaciones" onAction="#irANotificaciones"/>
+            <Label fx:id="etiquetaUsuario" styleClass="subtitulo"/>
+        </HBox>
+    </top>
+    <center>
+        <StackPane fx:id="contenido"/>
+    </center>
+</BorderPane>
