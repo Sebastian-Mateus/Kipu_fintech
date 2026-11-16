@@ -126,6 +126,23 @@ public class ServicioAnalitica {
         return Validador.redondear(total);
     }
 
+    /**
+     * Todas las transacciones (de cualquier estado) hechas entre dos fechas, en orden.
+     * Como la lista global esta ordenada por fecha, se para apenas se pasa de "hasta".
+     */
+    public ListaEnlazada<Transaccion> transaccionesEnPeriodo(LocalDateTime desde, LocalDateTime hasta) {
+        ListaEnlazada<Transaccion> resultado = new ListaEnlazada<>();
+        for (Transaccion transaccion : repositorioTransacciones.listar()) {
+            if (transaccion.getFecha().isAfter(hasta)) {
+                break;
+            }
+            if (!transaccion.getFecha().isBefore(desde)) {
+                resultado.agregarAlFinal(transaccion);
+            }
+        }
+        return resultado;
+    }
+
     /** El usuario que mas transacciones hizo entre dos fechas, o null si nadie hizo nada. */
     public ElementoRanking<Usuario> usuarioMasActivo(LocalDateTime desde, LocalDateTime hasta) {
         TablaHash<Usuario, Integer> conteo = new TablaHash<>();
@@ -205,6 +222,11 @@ public class ServicioAnalitica {
     /** Todas las relaciones de quien le transfiere a quien. */
     public ListaEnlazada<Arista<Usuario>> transferenciasEntreUsuarios() {
         return repositorioTransacciones.getGrafoUsuarios().aristas();
+    }
+
+    /** Todas las relaciones entre billeteras (incluye las transferencias internas). */
+    public ListaEnlazada<Arista<Billetera>> transferenciasEntreBilleteras() {
+        return repositorioTransacciones.getGrafoBilleteras().aristas();
     }
 
     // Las reversiones y las rechazadas no se cuentan como plata movida
