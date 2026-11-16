@@ -258,11 +258,14 @@ public class CargadorDatosDemo {
                     "Pago compartido");
         }
 
-        // Monto atipico: una recarga de 6 veces su promedio (riesgo alto, se rechaza)
+        // Monto atipico: un envio de 6 veces su promedio (riesgo alto, se rechaza)
         pasarMinutos(15);
         Usuario andres = usuarios[ANDRES];
+        Billetera origenAndres = billeteraConMasSaldo(andres);
         double montoRaro = redondearMonto(andres.getPerfil().promedioMonto() * 6);
-        intentar(andres, "recarga", null, billetera(ANDRES, 0), montoRaro, "Recarga inesperada");
+        // Tiene que alcanzarle el saldo, si no lo rechazarian por saldo y no por fraude
+        montoRaro = Math.min(montoRaro, redondearMonto(origenAndres.getSaldo() * 0.9));
+        intentar(andres, "externa", origenAndres, billetera(DANIEL, 0), montoRaro, "Envío urgente");
 
         // Ciclo en el grafo: Daniel -> Santiago -> Valentina -> Daniel
         pasarMinutos(10);
