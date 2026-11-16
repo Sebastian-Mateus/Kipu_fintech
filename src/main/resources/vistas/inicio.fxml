@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.fintech.controlador.InicioControlador"
+      styleClass="contenido">
+    <Label fx:id="etiquetaSaludo" styleClass="titulo"/>
+    <HBox spacing="16">
+        <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <Label text="Saldo total" styleClass="texto-secundario"/>
+            <Label fx:id="etiquetaSaldo" styleClass="tarjeta-valor"/>
+        </VBox>
+        <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <Label text="Puntos disponibles" styleClass="texto-secundario"/>
+            <Label fx:id="etiquetaPuntos" styleClass="tarjeta-valor"/>
+        </VBox>
+        <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <Label text="Transacciones de hoy" styleClass="texto-secundario"/>
+            <Label fx:id="etiquetaTransaccionesHoy" styleClass="tarjeta-valor"/>
+        </VBox>
+    </HBox>
+    <VBox styleClass="tarjeta">
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Tu nivel" styleClass="subtitulo"/>
+            <Label fx:id="etiquetaNivel"/>
+        </HBox>
+        <ProgressBar fx:id="barraNivel" maxWidth="Infinity" prefHeight="12"/>
+        <Label fx:id="etiquetaProgreso" styleClass="texto-secundario"/>
+        <Label fx:id="etiquetaBeneficiosNivel" styleClass="texto-secundario"/>
+    </VBox>
+    <Label text="Últimos movimientos" styleClass="subtitulo"/>
+    <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS"/>
+</VBox>
