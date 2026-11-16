@@ -9,9 +9,8 @@ Todas las estructuras de datos son **propias** (lista enlazada, pila, cola, cola
 ## Requisitos
 
 - JDK 21 o superior
-- Maven 3.9 o superior (o un IDE con Maven integrado, como IntelliJ IDEA)
+- Maven 3.9 o superior 
 
-JavaFX se descarga solo con Maven, no hay que instalarlo aparte.
 
 ## Cómo ejecutar
 
@@ -27,7 +26,6 @@ Para solo compilar:
 mvn compile
 ```
 
-En IntelliJ IDEA también se puede abrir la pestaña de Maven y ejecutar `Plugins > javafx > javafx:run`.
 
 ## Usuarios de prueba
 
@@ -92,5 +90,5 @@ src/main/resources
 
 ## Integrantes
 
-- Sebastian Mateus
-- Michael Alvarez
+- Juan Sebastian Mateus Hernandez
+- Michael Joel Alvarez Gil
