@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.fintech.controlador.RendimientoControlador"
+      styleClass="contenido">
+    <VBox styleClass="tarjeta">
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <Label text="Cantidad de elementos:"/>
+            <CheckBox fx:id="opcionMil" text="1.000" selected="true"/>
+            <CheckBox fx:id="opcionDiezMil" text="10.000" selected="true"/>
+            <CheckBox fx:id="opcionCienMil" text="100.000"/>
+            <Button fx:id="botonEjecutar" text="Ejecutar comparación" styleClass="boton-principal"
+                    onAction="#ejecutar"/>
+            <ProgressIndicator fx:id="indicadorProgreso" prefWidth="24" prefHeight="24" visible="false"/>
+            <Label fx:id="etiquetaEstado" styleClass="texto-secundario"/>
+        </HBox>
+        <Label text="Se busca 1.000 veces por id, se saca el top 10 de mayor valor y se compara el ABB con datos ordenados contra datos aleatorios. Esta última prueba usa máximo 10.000 elementos porque con datos ordenados el árbol se vuelve una lista y llenarlo con 100.000 tarda más de un minuto."
+               styleClass="texto-secundario" wrapText="true"/>
+    </VBox>
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaResultados" HBox.hgrow="ALWAYS" prefWidth="560"/>
+        <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" prefWidth="560">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Gráfica:" styleClass="subtitulo"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="comboComparacion" prefWidth="260"/>
+            </HBox>
+            <LineChart fx:id="graficaTiempos" animated="false" VBox.vgrow="ALWAYS">
+                <xAxis>
+                    <CategoryAxis label="Cantidad de elementos"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Tiempo (ms)"/>
+                </yAxis>
+            </LineChart>
+        </VBox>
+    </HBox>
+</VBox>
