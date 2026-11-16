@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.fintech.controlador.UsuariosControlador"
+      styleClass="contenido">
+    <VBox spacing="8" HBox.hgrow="ALWAYS">
+        <HBox spacing="8" alignment="BOTTOM_LEFT">
+            <VBox spacing="4">
+                <Label text="Buscar por cédula"/>
+                <TextField fx:id="campoBuscar" prefWidth="160" onAction="#buscar"/>
+            </VBox>
+            <Button text="Buscar" onAction="#buscar"/>
+            <Region prefWidth="16"/>
+            <VBox spacing="4">
+                <Label text="Filtrar por nivel"/>
+                <ComboBox fx:id="filtroNivel" prefWidth="200"/>
+            </VBox>
+            <Button text="Ver ranking completo" onAction="#verRanking"/>
+        </HBox>
+        <Label fx:id="etiquetaListado" styleClass="texto-secundario"/>
+        <TableView fx:id="tablaUsuarios" VBox.vgrow="ALWAYS"/>
+    </VBox>
+    <VBox styleClass="tarjeta" prefWidth="300" minWidth="300" spacing="10">
+        <Label fx:id="etiquetaFormulario" text="Nuevo usuario" styleClass="subtitulo"/>
+        <VBox spacing="4">
+            <Label text="Cédula"/>
+            <TextField fx:id="campoCedula"/>
+        </VBox>
+        <VBox spacing="4">
+            <Label text="Nombre"/>
+            <TextField fx:id="campoNombre"/>
+        </VBox>
+        <VBox spacing="4">
+            <Label text="Correo"/>
+            <TextField fx:id="campoCorreo"/>
+        </VBox>
+        <VBox spacing="4">
+            <Label text="Teléfono"/>
+            <TextField fx:id="campoTelefono"/>
+        </VBox>
+        <VBox spacing="4">
+            <Label text="Contraseña"/>
+            <PasswordField fx:id="campoContrasena"/>
+        </VBox>
+        <HBox spacing="8">
+            <Button text="Nuevo" onAction="#nuevo"/>
+            <Button text="Guardar" styleClass="boton-principal" onAction="#guardar"/>
+        </HBox>
+        <HBox spacing="8">
+            <Button fx:id="botonEstado" text="Desactivar" onAction="#cambiarEstado"/>
+            <Button text="Eliminar" styleClass="boton-peligro" onAction="#eliminar"/>
+        </HBox>
+        <Label fx:id="etiquetaMensaje" wrapText="true"/>
+    </VBox>
+</HBox>
