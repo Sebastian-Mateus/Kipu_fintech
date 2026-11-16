@@ -19,6 +19,10 @@ public class ServicioRendimiento {
     private static final int BUSQUEDAS = 1000;
     private static final int TOP = 10;
 
+    // Con 100.000 claves ordenadas el arbol degenerado se demoraba mas de un minuto
+    // en llenarse, por eso esa comparacion se deja en maximo 10.000 elementos
+    private static final int MAXIMO_ARBOL_ORDENADO = 10000;
+
     // Semilla fija para que los resultados se puedan repetir
     private Random aleatorio;
 
@@ -123,10 +127,10 @@ public class ServicioRendimiento {
     /**
      * Llena un arbol con claves en orden (se degenera en una lista) y otro con
      * las mismas claves en desorden, y mide insertar todo y buscar 1000 claves.
-     * Con 100.000 claves ordenadas esto se demora bastante, justamente eso es
-     * lo que se quiere mostrar.
+     * Si piden mas de 10.000 elementos se usan solo 10.000 (ver MAXIMO_ARBOL_ORDENADO).
      */
-    public ListaEnlazada<ResultadoRendimiento> compararArbolOrdenadoVsAleatorio(int cantidad) {
+    public ListaEnlazada<ResultadoRendimiento> compararArbolOrdenadoVsAleatorio(int cantidadPedida) {
+        int cantidad = Math.min(cantidadPedida, MAXIMO_ARBOL_ORDENADO);
         int[] ordenados = new int[cantidad];
         for (int indice = 0; indice < cantidad; indice++) {
             ordenados[indice] = indice;
