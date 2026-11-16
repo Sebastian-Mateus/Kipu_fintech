@@ -4,6 +4,7 @@ import co.edu.uniquindio.fintech.modelo.PerfilComportamiento;
 import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
+import co.edu.uniquindio.fintech.util.Configuracion;
 
 /**
  * Marca riesgo bajo si la transaccion se hace de madrugada (entre la 1 y las 5)
@@ -12,21 +13,21 @@ import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
  */
 public class ReglaHorarioInusual extends ReglaBase {
 
-    private static final int HORA_INICIO_MADRUGADA = 1;
-    private static final int HORA_FIN_MADRUGADA = 5;
-    private static final int MINIMO_TRANSACCIONES = 20;
-    private static final double PORCENTAJE_MINIMO = 2;
+    public ReglaHorarioInusual(Configuracion configuracion) {
+        super(configuracion);
+    }
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
         int hora = transaccion.getFecha().getHour();
-        if (hora >= HORA_INICIO_MADRUGADA && hora < HORA_FIN_MADRUGADA) {
+        if (hora >= configuracion.obtenerEntero(Configuracion.HORARIO_INICIO_MADRUGADA)
+                && hora < configuracion.obtenerEntero(Configuracion.HORARIO_FIN_MADRUGADA)) {
             return NivelRiesgo.BAJO;
         }
 
         PerfilComportamiento perfil = usuario.getPerfil();
-        if (perfil.getCantidadTransacciones() >= MINIMO_TRANSACCIONES
-                && perfil.porcentajeEnHora(hora) < PORCENTAJE_MINIMO) {
+        if (perfil.getCantidadTransacciones() >= configuracion.obtenerEntero(Configuracion.HORARIO_MINIMO_TRANSACCIONES)
+                && perfil.porcentajeEnHora(hora) < configuracion.obtener(Configuracion.HORARIO_PORCENTAJE_MINIMO)) {
             return NivelRiesgo.BAJO;
         }
         return NivelRiesgo.NINGUNO;

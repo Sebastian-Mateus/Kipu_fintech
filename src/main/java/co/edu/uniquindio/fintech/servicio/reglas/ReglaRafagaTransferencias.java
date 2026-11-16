@@ -3,17 +3,20 @@ package co.edu.uniquindio.fintech.servicio.reglas;
 import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
+import co.edu.uniquindio.fintech.util.Configuracion;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
 
 /**
- * Marca riesgo medio cuando el usuario hace 5 o mas transferencias en 10 minutos.
+ * Marca riesgo medio cuando el usuario hace muchas transferencias seguidas
+ * (por defecto 5 o mas en 10 minutos).
  */
 public class ReglaRafagaTransferencias extends ReglaBase {
 
-    private static final int MINUTOS_VENTANA = 10;
-    private static final int CANTIDAD_MAXIMA = 5;
+    public ReglaRafagaTransferencias(Configuracion configuracion) {
+        super(configuracion);
+    }
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
@@ -21,7 +24,8 @@ public class ReglaRafagaTransferencias extends ReglaBase {
             return NivelRiesgo.NINGUNO;
         }
 
-        LocalDateTime inicioVentana = transaccion.getFecha().minusMinutes(MINUTOS_VENTANA);
+        int minutos = configuracion.obtenerEntero(Configuracion.RAFAGA_MINUTOS);
+        LocalDateTime inicioVentana = transaccion.getFecha().minusMinutes(minutos);
         // Empieza en 1 porque la transaccion nueva tambien cuenta
         int cantidad = 1;
 
@@ -37,7 +41,7 @@ public class ReglaRafagaTransferencias extends ReglaBase {
             }
         }
 
-        if (cantidad >= CANTIDAD_MAXIMA) {
+        if (cantidad >= configuracion.obtenerEntero(Configuracion.RAFAGA_CANTIDAD)) {
             return NivelRiesgo.MEDIO;
         }
         return NivelRiesgo.NINGUNO;
@@ -50,6 +54,7 @@ public class ReglaRafagaTransferencias extends ReglaBase {
 
     @Override
     public String getDescripcion() {
-        return "5 o más transferencias en menos de 10 minutos";
+        return configuracion.obtenerEntero(Configuracion.RAFAGA_CANTIDAD) + " o más transferencias en menos de "
+                + configuracion.obtenerEntero(Configuracion.RAFAGA_MINUTOS) + " minutos";
     }
 }

@@ -4,18 +4,20 @@ import co.edu.uniquindio.fintech.modelo.Billetera;
 import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
+import co.edu.uniquindio.fintech.util.Configuracion;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
 
 /**
- * Marca riesgo medio cuando el usuario le manda 3 o mas veces a la misma
- * billetera de otra persona en 30 minutos.
+ * Marca riesgo medio cuando el usuario le manda varias veces a la misma
+ * billetera de otra persona en poco tiempo (por defecto 3 veces en 30 minutos).
  */
 public class ReglaDestinoRepetido extends ReglaBase {
 
-    private static final int MINUTOS_VENTANA = 30;
-    private static final int CANTIDAD_MAXIMA = 3;
+    public ReglaDestinoRepetido(Configuracion configuracion) {
+        super(configuracion);
+    }
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
@@ -24,7 +26,8 @@ public class ReglaDestinoRepetido extends ReglaBase {
         }
 
         Billetera destino = transaccion.getBilleteraDestino();
-        LocalDateTime inicioVentana = transaccion.getFecha().minusMinutes(MINUTOS_VENTANA);
+        int minutos = configuracion.obtenerEntero(Configuracion.DESTINO_MINUTOS);
+        LocalDateTime inicioVentana = transaccion.getFecha().minusMinutes(minutos);
         int cantidad = 1;
 
         Iterator<Transaccion> iterador = usuario.getHistorial().iteradorInverso();
@@ -39,7 +42,7 @@ public class ReglaDestinoRepetido extends ReglaBase {
             }
         }
 
-        if (cantidad >= CANTIDAD_MAXIMA) {
+        if (cantidad >= configuracion.obtenerEntero(Configuracion.DESTINO_CANTIDAD)) {
             return NivelRiesgo.MEDIO;
         }
         return NivelRiesgo.NINGUNO;
@@ -52,6 +55,8 @@ public class ReglaDestinoRepetido extends ReglaBase {
 
     @Override
     public String getDescripcion() {
-        return "3 o más envíos a la misma billetera en menos de 30 minutos";
+        return configuracion.obtenerEntero(Configuracion.DESTINO_CANTIDAD)
+                + " o más envíos a la misma billetera en menos de "
+                + configuracion.obtenerEntero(Configuracion.DESTINO_MINUTOS) + " minutos";
     }
 }

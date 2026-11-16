@@ -4,11 +4,19 @@ import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.EstadoTransaccion;
 import co.edu.uniquindio.fintech.modelo.enums.TipoTransaccion;
+import co.edu.uniquindio.fintech.util.Configuracion;
 
 /**
  * Metodos que comparten varias reglas, para no repetirlos en cada una.
+ * Los umbrales de cada regla (minutos, cantidades, veces) salen de la configuracion.
  */
 public abstract class ReglaBase implements ReglaDeteccion {
+
+    protected Configuracion configuracion;
+
+    protected ReglaBase(Configuracion configuracion) {
+        this.configuracion = configuracion;
+    }
 
     /** Una transferencia es cualquier movimiento con origen y destino (tambien las programadas). */
     protected boolean esTransferencia(Transaccion transaccion) {

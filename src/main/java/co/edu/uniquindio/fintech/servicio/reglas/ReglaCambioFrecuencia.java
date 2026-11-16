@@ -4,6 +4,7 @@ import co.edu.uniquindio.fintech.modelo.PerfilComportamiento;
 import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
+import co.edu.uniquindio.fintech.util.Configuracion;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -16,18 +17,20 @@ import java.util.Iterator;
  */
 public class ReglaCambioFrecuencia extends ReglaBase {
 
-    private static final int MINIMO_TRANSACCIONES = 5;
-    private static final int HORAS_VENTANA = 24;
-    private static final double VECES_PROMEDIO = 3;
+    public ReglaCambioFrecuencia(Configuracion configuracion) {
+        super(configuracion);
+    }
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
         PerfilComportamiento perfil = usuario.getPerfil();
-        if (perfil.getCantidadTransacciones() < MINIMO_TRANSACCIONES) {
+        if (perfil.getCantidadTransacciones()
+                < configuracion.obtenerEntero(Configuracion.FRECUENCIA_MINIMO_TRANSACCIONES)) {
             return NivelRiesgo.NINGUNO;
         }
 
-        LocalDateTime inicioVentana = transaccion.getFecha().minusHours(HORAS_VENTANA);
+        int horas = configuracion.obtenerEntero(Configuracion.FRECUENCIA_HORAS);
+        LocalDateTime inicioVentana = transaccion.getFecha().minusHours(horas);
         int cantidad = 1;
 
         Iterator<Transaccion> iterador = usuario.getHistorial().iteradorInverso();
@@ -42,7 +45,7 @@ public class ReglaCambioFrecuencia extends ReglaBase {
         }
 
         double promedioDiario = perfil.promedioDiario(transaccion.getFecha());
-        if (cantidad > promedioDiario * VECES_PROMEDIO) {
+        if (cantidad > promedioDiario * configuracion.obtener(Configuracion.FRECUENCIA_VECES)) {
             return NivelRiesgo.BAJO;
         }
         return NivelRiesgo.NINGUNO;
@@ -55,6 +58,8 @@ public class ReglaCambioFrecuencia extends ReglaBase {
 
     @Override
     public String getDescripcion() {
-        return "Más de 3 veces su promedio diario de transacciones en las últimas 24 horas";
+        return "Más de " + configuracion.obtenerEntero(Configuracion.FRECUENCIA_VECES)
+                + " veces su promedio diario de transacciones en las últimas "
+                + configuracion.obtenerEntero(Configuracion.FRECUENCIA_HORAS) + " horas";
     }
 }

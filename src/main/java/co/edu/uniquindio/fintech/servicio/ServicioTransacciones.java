@@ -19,6 +19,7 @@ import co.edu.uniquindio.fintech.modelo.enums.TipoNotificacion;
 import co.edu.uniquindio.fintech.modelo.enums.TipoTransaccion;
 import co.edu.uniquindio.fintech.repositorio.RepositorioBilleteras;
 import co.edu.uniquindio.fintech.repositorio.RepositorioTransacciones;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.RelojSistema;
 import co.edu.uniquindio.fintech.util.Validador;
@@ -44,12 +45,14 @@ public class ServicioTransacciones {
     private ServicioRecompensas recompensas;
     private ServicioDeteccionFraude deteccionFraude;
     private ServicioAnalitica analitica;
+    private Configuracion configuracion;
 
     public ServicioTransacciones(RepositorioTransacciones repositorioTransacciones,
                                  RepositorioBilleteras repositorioBilleteras, RelojSistema reloj,
                                  GeneradorIdentificadores generador, ServicioNotificaciones notificaciones,
                                  ServicioRecompensas recompensas, ServicioDeteccionFraude deteccionFraude,
-                                 ServicioAnalitica analitica) {
+                                 ServicioAnalitica analitica, Configuracion configuracion) {
+        this.configuracion = configuracion;
         this.repositorioTransacciones = repositorioTransacciones;
         this.repositorioBilleteras = repositorioBilleteras;
         this.reloj = reloj;
@@ -205,7 +208,8 @@ public class ServicioTransacciones {
 
         // 6. Apilar para poder revertir (los retiros no se revierten)
         if (tipo != TipoTransaccion.RETIRO) {
-            usuario.getPilaReversiones().apilar(new RegistroReversion(transaccion, puntos));
+            usuario.getPilaReversiones().apilar(new RegistroReversion(transaccion, puntos,
+                    configuracion.obtenerEntero(Configuracion.HORAS_REVERSION)));
         }
 
         // 7. Perfil para las reglas de fraude

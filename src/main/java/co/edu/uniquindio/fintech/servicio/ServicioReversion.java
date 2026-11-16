@@ -12,6 +12,7 @@ import co.edu.uniquindio.fintech.modelo.enums.EstadoTransaccion;
 import co.edu.uniquindio.fintech.modelo.enums.TipoNotificacion;
 import co.edu.uniquindio.fintech.modelo.enums.TipoTransaccion;
 import co.edu.uniquindio.fintech.repositorio.RepositorioTransacciones;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.RelojSistema;
 import co.edu.uniquindio.fintech.util.Validador;
@@ -25,24 +26,25 @@ import java.time.LocalDateTime;
  */
 public class ServicioReversion {
 
-    private static final int HORAS_PARA_REVERTIR = 24;
-
     private RepositorioTransacciones repositorioTransacciones;
     private RelojSistema reloj;
     private GeneradorIdentificadores generador;
     private ServicioNotificaciones notificaciones;
     private ServicioRecompensas recompensas;
     private ServicioAnalitica analitica;
+    private Configuracion configuracion;
 
     public ServicioReversion(RepositorioTransacciones repositorioTransacciones, RelojSistema reloj,
                              GeneradorIdentificadores generador, ServicioNotificaciones notificaciones,
-                             ServicioRecompensas recompensas, ServicioAnalitica analitica) {
+                             ServicioRecompensas recompensas, ServicioAnalitica analitica,
+                             Configuracion configuracion) {
         this.repositorioTransacciones = repositorioTransacciones;
         this.reloj = reloj;
         this.generador = generador;
         this.notificaciones = notificaciones;
         this.recompensas = recompensas;
         this.analitica = analitica;
+        this.configuracion = configuracion;
     }
 
     /**
@@ -67,7 +69,9 @@ public class ServicioReversion {
         Usuario usuario = original.getUsuario();
         RegistroReversion registro = sacarDeLaPila(usuario, original, ahora);
         if (registro == null || !registro.estaVigente(ahora)) {
-            throw new OperacionInvalidaException("Ya pasaron más de 24 horas, la transacción no se puede revertir");
+            throw new OperacionInvalidaException("Ya pasaron más de "
+                    + configuracion.obtenerEntero(Configuracion.HORAS_REVERSION)
+                    + " horas, la transacción no se puede revertir");
         }
 
         Billetera origen = original.getBilleteraOrigen();
@@ -110,7 +114,8 @@ public class ServicioReversion {
     public boolean esReversible(Transaccion transaccion) {
         return esTipoReversible(transaccion.getTipo())
                 && transaccion.getEstado() == EstadoTransaccion.EXITOSA
-                && !reloj.ahora().isAfter(transaccion.getFecha().plusHours(HORAS_PARA_REVERTIR));
+                && !reloj.ahora().isAfter(transaccion.getFecha().plusHours(
+                configuracion.obtenerEntero(Configuracion.HORAS_REVERSION)));
     }
 
     private boolean esTipoReversible(TipoTransaccion tipo) {

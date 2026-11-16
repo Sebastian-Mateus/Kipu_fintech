@@ -14,6 +14,7 @@ import co.edu.uniquindio.fintech.servicio.reglas.ReglaFragmentacion;
 import co.edu.uniquindio.fintech.servicio.reglas.ReglaHorarioInusual;
 import co.edu.uniquindio.fintech.servicio.reglas.ReglaMontoAtipico;
 import co.edu.uniquindio.fintech.servicio.reglas.ReglaRafagaTransferencias;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.Validador;
 
@@ -31,17 +32,18 @@ public class ServicioDeteccionFraude {
     private ServicioNotificaciones notificaciones;
     private GeneradorIdentificadores generador;
 
-    public ServicioDeteccionFraude(ServicioNotificaciones notificaciones, GeneradorIdentificadores generador) {
+    public ServicioDeteccionFraude(ServicioNotificaciones notificaciones, GeneradorIdentificadores generador,
+                                   Configuracion configuracion) {
         this.notificaciones = notificaciones;
         this.generador = generador;
         this.auditoria = new ListaEnlazada<>();
         this.reglas = new ListaEnlazada<>();
-        reglas.agregarAlFinal(new ReglaRafagaTransferencias());
-        reglas.agregarAlFinal(new ReglaMontoAtipico());
-        reglas.agregarAlFinal(new ReglaDestinoRepetido());
-        reglas.agregarAlFinal(new ReglaFragmentacion());
-        reglas.agregarAlFinal(new ReglaCambioFrecuencia());
-        reglas.agregarAlFinal(new ReglaHorarioInusual());
+        reglas.agregarAlFinal(new ReglaRafagaTransferencias(configuracion));
+        reglas.agregarAlFinal(new ReglaMontoAtipico(configuracion));
+        reglas.agregarAlFinal(new ReglaDestinoRepetido(configuracion));
+        reglas.agregarAlFinal(new ReglaFragmentacion(configuracion));
+        reglas.agregarAlFinal(new ReglaCambioFrecuencia(configuracion));
+        reglas.agregarAlFinal(new ReglaHorarioInusual(configuracion));
     }
 
     /** Evalua la transaccion con todas las reglas, la marca con el riesgo mayor y lo devuelve. */

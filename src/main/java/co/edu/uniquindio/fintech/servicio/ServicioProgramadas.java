@@ -14,6 +14,7 @@ import co.edu.uniquindio.fintech.modelo.enums.Frecuencia;
 import co.edu.uniquindio.fintech.modelo.enums.TipoNotificacion;
 import co.edu.uniquindio.fintech.modelo.enums.TipoTransaccion;
 import co.edu.uniquindio.fintech.repositorio.RepositorioBilleteras;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.RelojSistema;
 import co.edu.uniquindio.fintech.util.Validador;
@@ -28,8 +29,6 @@ import java.time.format.DateTimeFormatter;
  */
 public class ServicioProgramadas {
 
-    private static final int MAXIMO_INTENTOS = 3;
-    private static final int HORAS_PARA_ALERTA = 24;
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private ColaPrioridad<OperacionProgramada> monticulo;
@@ -41,10 +40,12 @@ public class ServicioProgramadas {
     private ServicioTransacciones transacciones;
     private ServicioNotificaciones notificaciones;
     private RepositorioBilleteras repositorioBilleteras;
+    private Configuracion configuracion;
 
     public ServicioProgramadas(RelojSistema reloj, GeneradorIdentificadores generador,
                                ServicioTransacciones transacciones, ServicioNotificaciones notificaciones,
-                               RepositorioBilleteras repositorioBilleteras) {
+                               RepositorioBilleteras repositorioBilleteras, Configuracion configuracion) {
+        this.configuracion = configuracion;
         this.reloj = reloj;
         this.generador = generador;
         this.transacciones = transacciones;
@@ -164,12 +165,13 @@ public class ServicioProgramadas {
             }
         } catch (FintechException error) {
             operacion.registrarFallo();
-            if (operacion.getIntentosFallidos() >= MAXIMO_INTENTOS) {
+            int maximoIntentos = configuracion.obtenerEntero(Configuracion.PROGRAMADAS_MAXIMO_INTENTOS);
+            if (operacion.getIntentosFallidos() >= maximoIntentos) {
                 operacion.setActiva(false);
-                anotar(operacion.getId() + " desactivada después de " + MAXIMO_INTENTOS + " intentos fallidos");
+                anotar(operacion.getId() + " desactivada después de " + maximoIntentos + " intentos fallidos");
                 notificaciones.generar(operacion.getUsuario(), TipoNotificacion.OPERACION_RECHAZADA,
                         "Tu operación programada \"" + operacion.getDescripcion()
-                                + "\" se desactivó después de " + MAXIMO_INTENTOS + " intentos fallidos.");
+                                + "\" se desactivó después de " + maximoIntentos + " intentos fallidos.");
             } else {
                 // Se vuelve a intentar en una hora
                 operacion.setFechaProximaEjecucion(reloj.ahora().plusHours(1));
@@ -184,7 +186,8 @@ public class ServicioProgramadas {
      * por ejecucion. Toca recorrer todo el arreglo del monticulo, asi que es O(n).
      */
     private void revisarAlertas() {
-        LocalDateTime limite = reloj.ahora().plusHours(HORAS_PARA_ALERTA);
+        LocalDateTime limite = reloj.ahora().plusHours(
+                configuracion.obtenerEntero(Configuracion.PROGRAMADAS_HORAS_ALERTA));
         for (OperacionProgramada operacion : monticulo) {
             if (!operacion.isAlertaEnviada() && operacion.getFechaProximaEjecucion().isBefore(limite)) {
                 operacion.setAlertaEnviada(true);

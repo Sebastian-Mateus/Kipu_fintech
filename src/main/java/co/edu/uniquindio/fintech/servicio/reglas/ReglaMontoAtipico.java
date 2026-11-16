@@ -4,6 +4,7 @@ import co.edu.uniquindio.fintech.modelo.PerfilComportamiento;
 import co.edu.uniquindio.fintech.modelo.Transaccion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.NivelRiesgo;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.Validador;
 
 /**
@@ -13,22 +14,22 @@ import co.edu.uniquindio.fintech.util.Validador;
  */
 public class ReglaMontoAtipico extends ReglaBase {
 
-    private static final int MINIMO_TRANSACCIONES = 5;
-    private static final double VECES_MEDIO = 3;
-    private static final double VECES_ALTO = 5;
+    public ReglaMontoAtipico(Configuracion configuracion) {
+        super(configuracion);
+    }
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
         PerfilComportamiento perfil = usuario.getPerfil();
-        if (perfil.getCantidadTransacciones() < MINIMO_TRANSACCIONES) {
+        if (perfil.getCantidadTransacciones() < configuracion.obtenerEntero(Configuracion.ATIPICO_MINIMO_TRANSACCIONES)) {
             return NivelRiesgo.NINGUNO;
         }
 
         double promedio = perfil.promedioMonto();
-        if (Validador.esMayor(transaccion.getValor(), promedio * VECES_ALTO)) {
+        if (Validador.esMayor(transaccion.getValor(), promedio * configuracion.obtener(Configuracion.ATIPICO_VECES_ALTO))) {
             return NivelRiesgo.ALTO;
         }
-        if (Validador.esMayor(transaccion.getValor(), promedio * VECES_MEDIO)) {
+        if (Validador.esMayor(transaccion.getValor(), promedio * configuracion.obtener(Configuracion.ATIPICO_VECES_MEDIO))) {
             return NivelRiesgo.MEDIO;
         }
         return NivelRiesgo.NINGUNO;
@@ -41,6 +42,7 @@ public class ReglaMontoAtipico extends ReglaBase {
 
     @Override
     public String getDescripcion() {
-        return "Monto mayor a 3 veces (medio) o 5 veces (alto) el promedio del usuario";
+        return "Monto mayor a " + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_MEDIO) + " veces (medio) o "
+                + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_ALTO) + " veces (alto) el promedio del usuario";
     }
 }

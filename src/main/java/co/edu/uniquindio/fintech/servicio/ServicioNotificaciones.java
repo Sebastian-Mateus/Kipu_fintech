@@ -5,6 +5,7 @@ import co.edu.uniquindio.fintech.estructuras.ListaEnlazada;
 import co.edu.uniquindio.fintech.modelo.Notificacion;
 import co.edu.uniquindio.fintech.modelo.Usuario;
 import co.edu.uniquindio.fintech.modelo.enums.TipoNotificacion;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.RelojSistema;
 
@@ -12,21 +13,22 @@ import java.util.Iterator;
 
 /**
  * Maneja las notificaciones. Cuando se genera una queda esperando en una cola,
- * y al despachar pasa a la lista del usuario. Cada usuario guarda maximo 20,
- * si se pasa se borra la mas vieja.
+ * y al despachar pasa a la lista del usuario. Cada usuario guarda un maximo
+ * (20 por defecto, sale de la configuracion), si se pasa se borra la mas vieja.
  */
 public class ServicioNotificaciones {
-
-    private static final int MAXIMO_RECIENTES = 20;
 
     private Cola<Notificacion> pendientes;
     private RelojSistema reloj;
     private GeneradorIdentificadores generador;
+    private Configuracion configuracion;
 
-    public ServicioNotificaciones(RelojSistema reloj, GeneradorIdentificadores generador) {
+    public ServicioNotificaciones(RelojSistema reloj, GeneradorIdentificadores generador,
+                                  Configuracion configuracion) {
         this.pendientes = new Cola<>();
         this.reloj = reloj;
         this.generador = generador;
+        this.configuracion = configuracion;
     }
 
     /** Crea una notificaicon y la deja en la cola de pendientes. */
@@ -46,7 +48,7 @@ public class ServicioNotificaciones {
 
             ListaEnlazada<Notificacion> lista = notificacion.getUsuario().getNotificaciones();
             lista.agregarAlFinal(notificacion);
-            if (lista.tamanio() > MAXIMO_RECIENTES) {
+            if (lista.tamanio() > configuracion.obtenerEntero(Configuracion.NOTIFICACIONES_MAXIMO)) {
                 lista.eliminarPrimero();
             }
             despachadas++;

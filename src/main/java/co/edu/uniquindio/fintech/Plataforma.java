@@ -13,6 +13,7 @@ import co.edu.uniquindio.fintech.servicio.ServicioRendimiento;
 import co.edu.uniquindio.fintech.servicio.ServicioReversion;
 import co.edu.uniquindio.fintech.servicio.ServicioTransacciones;
 import co.edu.uniquindio.fintech.servicio.ServicioUsuarios;
+import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.GeneradorIdentificadores;
 import co.edu.uniquindio.fintech.util.RelojSistema;
 
@@ -27,6 +28,7 @@ public class Plataforma {
 
     private RelojSistema reloj;
     private GeneradorIdentificadores generador;
+    private Configuracion configuracion;
 
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioBilleteras repositorioBilleteras;
@@ -46,22 +48,24 @@ public class Plataforma {
     private Plataforma() {
         reloj = new RelojSistema();
         generador = new GeneradorIdentificadores();
+        configuracion = new Configuracion();
 
         repositorioUsuarios = new RepositorioUsuarios();
         repositorioBilleteras = new RepositorioBilleteras();
         repositorioTransacciones = new RepositorioTransacciones();
 
         // El orden importa: cada servicio necesita que ya existan los que usa
-        servicioNotificaciones = new ServicioNotificaciones(reloj, generador);
+        servicioNotificaciones = new ServicioNotificaciones(reloj, generador, configuracion);
         servicioRecompensas = new ServicioRecompensas(repositorioUsuarios, servicioNotificaciones, reloj, generador);
-        servicioDeteccionFraude = new ServicioDeteccionFraude(servicioNotificaciones, generador);
+        servicioDeteccionFraude = new ServicioDeteccionFraude(servicioNotificaciones, generador, configuracion);
         servicioAnalitica = new ServicioAnalitica(repositorioTransacciones, repositorioBilleteras, repositorioUsuarios);
         servicioTransacciones = new ServicioTransacciones(repositorioTransacciones, repositorioBilleteras, reloj,
-                generador, servicioNotificaciones, servicioRecompensas, servicioDeteccionFraude, servicioAnalitica);
+                generador, servicioNotificaciones, servicioRecompensas, servicioDeteccionFraude, servicioAnalitica,
+                configuracion);
         servicioReversion = new ServicioReversion(repositorioTransacciones, reloj, generador, servicioNotificaciones,
-                servicioRecompensas, servicioAnalitica);
+                servicioRecompensas, servicioAnalitica, configuracion);
         servicioProgramadas = new ServicioProgramadas(reloj, generador, servicioTransacciones, servicioNotificaciones,
-                repositorioBilleteras);
+                repositorioBilleteras, configuracion);
         servicioUsuarios = new ServicioUsuarios(repositorioUsuarios, repositorioBilleteras, servicioProgramadas, reloj);
         servicioBilleteras = new ServicioBilleteras(repositorioBilleteras, generador, reloj);
         servicioRendimiento = new ServicioRendimiento();
@@ -99,6 +103,10 @@ public class Plataforma {
 
     public GeneradorIdentificadores getGenerador() {
         return generador;
+    }
+
+    public Configuracion getConfiguracion() {
+        return configuracion;
     }
 
     public RepositorioUsuarios getRepositorioUsuarios() {
