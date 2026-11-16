@@ -19,3 +19,7 @@ Thumbs.db
 
 # Documento de diseño interno
 docs/DISENO.md
+
+# Configuración local
+CLAUDE.md
+.claude/
