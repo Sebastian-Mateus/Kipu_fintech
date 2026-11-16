@@ -1,0 +1,452 @@
+/*
+ * Estilos de Kipu. Estilo claro y limpio, con la paleta acordada en el diseño.
+ * Espaciados en multiplos de 8 y bordes redondeados de 8 px.
+ */
+
+.root {
+    -fondo: #F4F5F7;
+    -superficie: #FFFFFF;
+    -borde: #E2E4E8;
+    -texto: #0B0B0B;
+    -texto-secundario: #52514E;
+    -acento: #2A78D6;
+    -acento-hover: #256ABF;
+    -acento-presionado: #1C5CAB;
+    -acento-suave: #CDE2FB;
+    -exito: #0CA30C;
+    -exito-texto: #006300;
+    -advertencia: #FAB219;
+    -grave: #EC835A;
+    -critico: #D03B3B;
+    -neutro: #8A8F98;
+
+    -fx-font-family: "Segoe UI", "System";
+    -fx-font-size: 13px;
+    -fx-background-color: -fondo;
+    -fx-text-fill: -texto;
+    -fx-accent: -acento;
+    -fx-focus-color: -acento;
+    -fx-faint-focus-color: transparent;
+}
+
+.label {
+    -fx-text-fill: -texto;
+}
+
+/* ---------- Textos ---------- */
+
+.titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.subtitulo {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.texto-secundario {
+    -fx-text-fill: -texto-secundario;
+}
+
+.mensaje-exito {
+    -fx-text-fill: -exito-texto;
+    -fx-font-weight: bold;
+}
+
+.mensaje-error {
+    -fx-text-fill: -critico;
+    -fx-font-weight: bold;
+}
+
+.logo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -acento;
+    -fx-padding: 0 0 16 8;
+}
+
+.logo-grande {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -acento;
+}
+
+/* ---------- Estructura de las pantallas ---------- */
+
+.fondo-login {
+    -fx-background-color: -fondo;
+    -fx-padding: 32;
+}
+
+.menu-lateral {
+    -fx-background-color: -superficie;
+    -fx-border-color: transparent -borde transparent transparent;
+    -fx-padding: 24 16 16 16;
+    -fx-spacing: 4;
+    -fx-pref-width: 224;
+}
+
+.boton-menu {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-alignment: center-left;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+    -fx-text-fill: -texto-secundario;
+    -fx-max-width: infinity;
+    -fx-cursor: hand;
+}
+
+.boton-menu:hover {
+    -fx-background-color: -fondo;
+}
+
+.boton-menu.activo {
+    -fx-background-color: -acento-suave;
+    -fx-text-fill: -acento-presionado;
+    -fx-font-weight: bold;
+}
+
+.barra-superior {
+    -fx-background-color: -superficie;
+    -fx-border-color: transparent transparent -borde transparent;
+    -fx-padding: 12 24;
+    -fx-spacing: 16;
+    -fx-alignment: center-left;
+}
+
+.contenido {
+    -fx-padding: 24;
+    -fx-spacing: 16;
+    -fx-background-color: -fondo;
+}
+
+.scroll-pane, .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-background: -fondo;
+}
+
+.tarjeta {
+    -fx-background-color: -superficie;
+    -fx-background-radius: 8;
+    -fx-border-color: -borde;
+    -fx-border-radius: 8;
+    -fx-padding: 16;
+    -fx-spacing: 8;
+}
+
+.tarjeta-login {
+    -fx-padding: 32;
+}
+
+.tarjeta-valor {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.fecha-grande {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Botones ---------- */
+
+.button {
+    -fx-background-color: -superficie;
+    -fx-border-color: -borde;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 6 16;
+    -fx-text-fill: -texto;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -fondo;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.boton-principal {
+    -fx-background-color: -acento;
+    -fx-border-color: -acento;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.boton-principal:hover {
+    -fx-background-color: -acento-hover;
+    -fx-border-color: -acento-hover;
+}
+
+.boton-principal:pressed {
+    -fx-background-color: -acento-presionado;
+    -fx-border-color: -acento-presionado;
+}
+
+.boton-peligro {
+    -fx-text-fill: -critico;
+    -fx-border-color: -critico;
+}
+
+.boton-notificaciones {
+    -fx-font-weight: bold;
+}
+
+.hyperlink {
+    -fx-text-fill: -acento;
+    -fx-border-color: transparent;
+}
+
+/* ---------- Campos ---------- */
+
+.text-field, .password-field, .combo-box, .date-picker, .text-area {
+    -fx-background-color: -superficie;
+    -fx-border-color: -borde;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: -acento;
+}
+
+.date-picker > .text-field {
+    -fx-border-color: transparent;
+}
+
+/* ---------- Tablas y listas ---------- */
+
+.table-view, .list-view {
+    -fx-background-color: -superficie;
+    -fx-border-color: -borde;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-selection-bar: -acento-suave;
+    -fx-selection-bar-non-focused: -acento-suave;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -superficie;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -borde transparent;
+    -fx-padding: 6 4;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -texto-secundario;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell {
+    -fx-background-color: -superficie;
+    -fx-border-color: transparent transparent -fondo transparent;
+    -fx-cell-size: 32;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -acento-suave;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: -texto;
+}
+
+.list-cell {
+    -fx-padding: 8;
+    -fx-background-color: -superficie;
+    -fx-text-fill: -texto;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: -acento-suave;
+}
+
+.notificacion-no-leida {
+    -fx-border-color: transparent transparent transparent -acento;
+    -fx-border-width: 0 0 0 4;
+}
+
+.notificacion-no-leida .titulo-notificacion {
+    -fx-font-weight: bold;
+}
+
+.icono-notificacion {
+    -fx-font-size: 18px;
+    -fx-text-fill: -acento;
+    -fx-min-width: 32;
+    -fx-alignment: center;
+}
+
+/* ---------- Etiquetas de estado, nivel y riesgo (siempre con texto) ---------- */
+
+.etiqueta {
+    -fx-background-radius: 999;
+    -fx-padding: 2 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.nivel-bronce {
+    -fx-background-color: #A86B32;
+    -fx-text-fill: white;
+}
+
+.nivel-plata {
+    -fx-background-color: #8C96A3;
+    -fx-text-fill: white;
+}
+
+.nivel-oro {
+    -fx-background-color: #C9A227;
+    -fx-text-fill: #0B0B0B;
+}
+
+.nivel-platino {
+    -fx-background-color: #5E6B8A;
+    -fx-text-fill: white;
+}
+
+.riesgo-ninguno {
+    -fx-background-color: -borde;
+    -fx-text-fill: -texto-secundario;
+}
+
+.riesgo-bajo {
+    -fx-background-color: -advertencia;
+    -fx-text-fill: -texto;
+}
+
+.riesgo-medio {
+    -fx-background-color: -grave;
+    -fx-text-fill: -texto;
+}
+
+.riesgo-alto {
+    -fx-background-color: -critico;
+    -fx-text-fill: white;
+}
+
+.estado-exitosa, .estado-activa {
+    -fx-background-color: #DDF3DD;
+    -fx-text-fill: -exito-texto;
+}
+
+.estado-pendiente {
+    -fx-background-color: -borde;
+    -fx-text-fill: -texto-secundario;
+}
+
+.estado-rechazada, .estado-cerrada {
+    -fx-background-color: #F7DADA;
+    -fx-text-fill: -critico;
+}
+
+.estado-revertida {
+    -fx-background-color: -borde;
+    -fx-text-fill: -texto-secundario;
+}
+
+.estado-bloqueada {
+    -fx-background-color: -advertencia;
+    -fx-text-fill: -texto;
+}
+
+.contador {
+    -fx-background-color: -critico;
+    -fx-text-fill: white;
+    -fx-background-radius: 999;
+    -fx-padding: 0 6;
+    -fx-font-size: 11px;
+}
+
+/* ---------- Barra de progreso del nivel ---------- */
+
+.progress-bar > .track {
+    -fx-background-color: -fondo;
+    -fx-background-radius: 8;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -acento;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+}
+
+/* ---------- Pestañas ---------- */
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-padding: 6 16;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-color: transparent transparent -acento transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label {
+    -fx-text-fill: -acento-presionado;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Graficas: colores en el orden fijo del diseño ---------- */
+
+.chart-plot-background {
+    -fx-background-color: -superficie;
+}
+
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: -borde;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #2A78D6; }
+.default-color1.chart-bar { -fx-bar-fill: #EB6834; }
+.default-color2.chart-bar { -fx-bar-fill: #1BAF7A; }
+.default-color3.chart-bar { -fx-bar-fill: #EDA100; }
+
+.default-color0.chart-series-line { -fx-stroke: #2A78D6; }
+.default-color1.chart-series-line { -fx-stroke: #EB6834; }
+.default-color2.chart-series-line { -fx-stroke: #1BAF7A; }
+.default-color3.chart-series-line { -fx-stroke: #EDA100; }
+.default-color4.chart-series-line { -fx-stroke: #E87BA4; }
+.default-color5.chart-series-line { -fx-stroke: #008300; }
+.default-color6.chart-series-line { -fx-stroke: #6250D6; }
+.default-color7.chart-series-line { -fx-stroke: #E34948; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #2A78D6, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #EB6834, white; }
+.default-color2.chart-line-symbol { -fx-background-color: #1BAF7A, white; }
+.default-color3.chart-line-symbol { -fx-background-color: #EDA100, white; }
+.default-color4.chart-line-symbol { -fx-background-color: #E87BA4, white; }
+.default-color5.chart-line-symbol { -fx-background-color: #008300, white; }
+.default-color6.chart-line-symbol { -fx-background-color: #6250D6, white; }
+.default-color7.chart-line-symbol { -fx-background-color: #E34948, white; }
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+/* ---------- Dialogos ---------- */
+
+.dialog-pane {
+    -fx-background-color: -superficie;
+}
+
+.dialog-pane > .button-bar > .container > .button:default {
+    -fx-background-color: -acento;
+    -fx-border-color: -acento;
+    -fx-text-fill: white;
+}
