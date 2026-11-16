@@ -5,44 +5,72 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uniquindio.fintech.controlador.RedTransferenciasControlador"
-            fitToWidth="true">
-    <VBox styleClass="contenido">
-        <HBox spacing="16">
-            <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
-                <Label text="Rutas más frecuentes entre usuarios" styleClass="subtitulo"/>
-                <TableView fx:id="tablaRutas" prefHeight="280"/>
-            </VBox>
-            <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
-                <Label text="Ciclos detectados" styleClass="subtitulo"/>
-                <Label text="Plata que sale de alguien y, pasando por otros, vuelve a él"
-                       styleClass="texto-secundario"/>
-                <ListView fx:id="listaCiclos" prefHeight="248"/>
-            </VBox>
-        </HBox>
-        <VBox styleClass="tarjeta">
-            <Label text="Buscar camino entre dos usuarios" styleClass="subtitulo"/>
-            <HBox spacing="8" alignment="BOTTOM_LEFT">
-                <VBox spacing="4">
-                    <Label text="Desde"/>
-                    <ComboBox fx:id="comboOrigen" prefWidth="260"/>
+<TabPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="co.edu.uniquindio.fintech.controlador.RedTransferenciasControlador"
+         tabClosingPolicy="UNAVAILABLE">
+    <Tab text="Entre usuarios">
+        <ScrollPane fitToWidth="true">
+            <VBox styleClass="contenido">
+                <HBox spacing="16">
+                    <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <Label text="Rutas más frecuentes entre usuarios" styleClass="subtitulo"/>
+                        <TableView fx:id="tablaRutas" prefHeight="280"/>
+                    </VBox>
+                    <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <Label text="Ciclos detectados" styleClass="subtitulo"/>
+                        <Label text="Plata que sale de alguien y, pasando por otros, vuelve a él"
+                               styleClass="texto-secundario"/>
+                        <ListView fx:id="listaCiclos" prefHeight="248"/>
+                    </VBox>
+                </HBox>
+                <VBox styleClass="tarjeta">
+                    <Label text="Buscar camino entre dos usuarios" styleClass="subtitulo"/>
+                    <HBox spacing="8" alignment="BOTTOM_LEFT">
+                        <VBox spacing="4">
+                            <Label text="Desde"/>
+                            <ComboBox fx:id="comboOrigen" prefWidth="260"/>
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label text="Hasta"/>
+                            <ComboBox fx:id="comboDestino" prefWidth="260"/>
+                        </VBox>
+                        <Button text="Buscar camino" styleClass="boton-principal" onAction="#buscarCamino"/>
+                    </HBox>
+                    <Label fx:id="etiquetaCamino" wrapText="true"/>
                 </VBox>
-                <VBox spacing="4">
-                    <Label text="Hasta"/>
-                    <ComboBox fx:id="comboDestino" prefWidth="260"/>
+                <VBox styleClass="tarjeta">
+                    <Label text="Quién le transfiere a quién" styleClass="subtitulo"/>
+                    <TableView fx:id="tablaRelaciones" prefHeight="320"/>
                 </VBox>
-                <Button text="Buscar camino" styleClass="boton-principal" onAction="#buscarCamino"/>
-            </HBox>
-            <Label fx:id="etiquetaCamino" wrapText="true"/>
-        </VBox>
-        <VBox styleClass="tarjeta">
-            <Label text="Quién le transfiere a quién" styleClass="subtitulo"/>
-            <TableView fx:id="tablaRelaciones" prefHeight="320"/>
-        </VBox>
-    </VBox>
-</ScrollPane>
+            </VBox>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Entre billeteras">
+        <ScrollPane fitToWidth="true">
+            <VBox styleClass="contenido">
+                <Label text="Incluye las transferencias internas, por eso aparecen relaciones entre billeteras del mismo dueño."
+                       styleClass="texto-secundario" wrapText="true"/>
+                <HBox spacing="16">
+                    <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <Label text="Rutas más frecuentes entre billeteras" styleClass="subtitulo"/>
+                        <TableView fx:id="tablaRutasBilleteras" prefHeight="280"/>
+                    </VBox>
+                    <VBox styleClass="tarjeta" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                        <Label text="Ciclos entre billeteras" styleClass="subtitulo"/>
+                        <ListView fx:id="listaCiclosBilleteras" prefHeight="268"/>
+                    </VBox>
+                </HBox>
+                <VBox styleClass="tarjeta">
+                    <Label text="Relaciones entre billeteras" styleClass="subtitulo"/>
+                    <TableView fx:id="tablaRelacionesBilleteras" prefHeight="320"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </Tab>
+</TabPane>
