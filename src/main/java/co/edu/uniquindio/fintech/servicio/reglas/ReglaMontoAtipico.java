@@ -8,9 +8,10 @@ import co.edu.uniquindio.fintech.util.Configuracion;
 import co.edu.uniquindio.fintech.util.Validador;
 
 /**
- * Compara el monto con el promedio del usuario: mas de 3 veces el promedio es
- * riesgo medio y mas de 5 veces es alto. Solo se revisa cuando el usuario ya
- * tiene por lo menos 5 transacciones, si no el promedio no dice mucho.
+ * Compara el monto de los retiros y envios con el promedio del usuario: mas de
+ * 3 veces el promedio es riesgo medio y mas de 5 veces es alto. Solo se revisa
+ * cuando el usuario ya tiene por lo menos 5 transacciones, si no el promedio
+ * no dice mucho. Las recargas no se revisan porque no sacan plata de la cuenta.
  */
 public class ReglaMontoAtipico extends ReglaBase {
 
@@ -20,6 +21,10 @@ public class ReglaMontoAtipico extends ReglaBase {
 
     @Override
     public NivelRiesgo evaluar(Transaccion transaccion, Usuario usuario) {
+        // Sin billetera de origen es una recarga, esa no aplica
+        if (transaccion.getBilleteraOrigen() == null) {
+            return NivelRiesgo.NINGUNO;
+        }
         PerfilComportamiento perfil = usuario.getPerfil();
         if (perfil.getCantidadTransacciones() < configuracion.obtenerEntero(Configuracion.ATIPICO_MINIMO_TRANSACCIONES)) {
             return NivelRiesgo.NINGUNO;
@@ -42,7 +47,8 @@ public class ReglaMontoAtipico extends ReglaBase {
 
     @Override
     public String getDescripcion() {
-        return "Monto mayor a " + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_MEDIO) + " veces (medio) o "
-                + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_ALTO) + " veces (alto) el promedio del usuario";
+        return "Retiro o envío mayor a " + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_MEDIO)
+                + " veces (medio) o " + configuracion.obtenerEntero(Configuracion.ATIPICO_VECES_ALTO)
+                + " veces (alto) el promedio del usuario";
     }
 }
